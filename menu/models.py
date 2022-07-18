@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 
 
@@ -8,7 +6,6 @@ from django.db import models
 class MenuCategory(models.Model):
     title = models.CharField(max_length=120)
     order = models.IntegerField(default=0)
-    created_at = models.DateTimeField(default=datetime.now)
 
     class Meta:
         ordering = ['order']
@@ -22,7 +19,6 @@ class MenuItem(models.Model):
     title = models.CharField(max_length=120)
     order = models.IntegerField(default=0)
     category = models.ForeignKey(MenuCategory, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=datetime.now)
 
     class Meta:
         ordering = ['order']

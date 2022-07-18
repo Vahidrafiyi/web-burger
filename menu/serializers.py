@@ -1,20 +1,18 @@
 from rest_framework import serializers
 from rest_framework_recursive.fields import RecursiveField
+
 from .models import *
 
 
-
-
 class MenuItemSerializer(serializers.ModelSerializer):
-    #category = serializers.StringRelatedField()
+    # category = serializers.StringRelatedField()
     class Meta:
         model = MenuItem
-        fields = ['id','menu_item_title','menu_item_order','category','created_at']
-
+        fields = ['id', 'menu_item_title', 'menu_item_order', 'category']
 
 
 class MenuCategorySerializer(serializers.ModelSerializer):
-    #menuitem = MenuItemSerializer(read_only=True, many=True)
+    # menuitem = MenuItemSerializer(read_only=True, many=True)
     class Meta:
         model = MenuCategory
         fields = '__all__'
@@ -27,10 +25,9 @@ class MenuCategorySerializer(serializers.ModelSerializer):
     #     return category
 
 
-
-
 class MenuSerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True)
+
     class Meta:
         model = Menu
-        fields = ('id','name','parent','children')
+        fields = ('id', 'name', 'parent', 'children')

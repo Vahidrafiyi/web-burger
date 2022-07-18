@@ -47,7 +47,7 @@ class MenuCategory(APIView):
         return Response(status=204)
 
 
-class MenuItem(APIView):
+class MenuItems(APIView):
     def get(self, request):
         query = MenuItem.objects.all()
         serializers = MenuItemSerializer(query, many=True, context={'request': request})
@@ -61,12 +61,16 @@ class MenuItem(APIView):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def patch(self, request, pk):
-        query = MenuItem.objects.get(pk=pk)
-        serializer = MenuItemSerializer(query, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=202)
-        return Response(serializer.errors, status=400)
+        try:
+            query = MenuItem.objects.get(pk=pk)
+            serializer = MenuItemSerializer(query, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=202)
+            return Response(serializer.errors, status=400)
+        except:
+            data = {'error':'something went wrong!!'}
+            return Response(data, status=400)
 
     def delete(self, request, pk):
         query = MenuItem.objects.get(pk=pk)
